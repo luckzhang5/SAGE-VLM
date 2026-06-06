@@ -9,7 +9,6 @@
 ## 1. Project Features
 
 *   **Multi-View Decoupled 2D Rotary Positional Encoding (MVD-RoPE)**
-*   
 *   <p align="center">
   <img src="image/2d.png" alt="SAGE-VLM Pipeline" width="100%">
 </p>
