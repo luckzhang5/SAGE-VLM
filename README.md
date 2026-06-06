@@ -9,6 +9,10 @@
 ## 1. Project Features
 
 *   **Multi-View Decoupled 2D Rotary Positional Encoding (MVD-RoPE)**
+*   
+*   <p align="center">
+  <img src="image/2d.png" alt="SAGE-VLM Pipeline" width="100%">
+</p>
 
 Explicitly injects fine-grained spatial inductive biases natively into the attention layers[cite: 1]. It strictly decouples continuous view boundaries, successfully eliminating multi-camera spatial confusion[cite: 1].
 
