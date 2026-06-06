@@ -9,13 +9,16 @@
 ## 1. Project Features
 
 *   **Multi-View Decoupled 2D Rotary Positional Encoding (MVD-RoPE)**
-*   <p align="center">
+   <p align="center">
   <img src="image/2d.png" alt="SAGE-VLM Pipeline" width="100%">
 </p>
 
 Explicitly injects fine-grained spatial inductive biases natively into the attention layers[cite: 1]. It strictly decouples continuous view boundaries, successfully eliminating multi-camera spatial confusion[cite: 1].
 
 *   **Semantic-Conditioned Visual Residual (SCVR)**
+  <p align="center">
+  <img src="image/ronghe.png" alt="SAGE-VLM Pipeline" width="100%">
+</p>
 
 Extracts an adaptive pure text query to serve as a non-destructive semantic gate[cite: 1]. It dynamically filters task-irrelevant background noise while strictly preserving the underlying spatial topology through a residual pathway[cite: 1].
 
