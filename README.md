@@ -1,7 +1,7 @@
 # SAGE-VLM
 
 <p align="center">
-  <img src="image/1.png" alt="SAGE-VLM Pipeline" width="50%">
+  <img src="image/1.png" alt="SAGE-VLM Pipeline" width="100%">
 </p>
 
 **SAGE-VLM** is a highly efficient vision-language model framework tailored for autonomous system perception in highly dynamic and complex urban environments[cite: 1]. It addresses the critical demands for real-time inference on edge devices by overcoming severe coordinate aliasing and the destructive collapse of rigid spatial topologies found in existing architectures[cite: 1].
