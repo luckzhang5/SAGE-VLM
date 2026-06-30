@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="SAGE-VLM: Spatially-Decoupled Rotary Encoding and Semantic Residual Gating for Multi-View Vision-Language Models">
+  <meta name="keywords" content="SAGE-VLM, Vision-Language Models, Autonomous Perception, Rotary Positional Encoding, Parameter Efficiency, Cross-Modal Fusion, Edge AI">
+
+  <title>SAGE-VLM: Spatially-Decoupled Rotary Encoding and Semantic Residual Gating for Multi-View VLMs</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    :root {
+      --text: #222;
+      --muted: #5c6470;
+      --line: #e9edf2;
+      --bg: #ffffff;
+      --soft-bg: #f6f8fb;
+      --dark: #222831;
+      --blue: #1f6feb;
+      --main-text-size: 1.22rem;
+      --affiliation-size: 1.38rem;
+      --maxw: 1180px;
+      --logo-size: 122px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: "Times New Roman", Times, serif;
+      line-height: 1.55;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    .container { width: min(var(--maxw), calc(100% - 40px)); margin: 0 auto; }
+
+    .hero {
+      padding: 58px 0 30px;
+      text-align: center;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .paper-title {
+      font-family: "Times New Roman", Times, serif;
+      font-weight: 700;
+      color: #000;
+      text-align: center;
+      width: 100%;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .title-line1 { font-size: clamp(1.85rem, 3.2vw, 2.35rem); display: block; margin-bottom: 3px; white-space: normal; }
+    .title-line2 { font-size: clamp(1.65rem, 3vw, 2.15rem); display: block; margin-top: 0; white-space: normal; }
+
+    .authors {
+      margin-top: 20px;
+      font-size: var(--affiliation-size);
+      color: #000;
+      line-height: 1.45;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    .authors span { display: inline-block; margin: 0 5px 4px; }
+    .membership { color: #000; font-style: italic; white-space: nowrap; }
+
+    .institution-row {
+      margin: 12px auto 0;
+      display: grid;
+      grid-template-columns: auto minmax(0, 760px) auto;
+      align-items: center;
+      justify-content: center;
+      column-gap: 14px;
+    }
+
+    .school-logo {
+      width: var(--logo-size);
+      height: var(--logo-size);
+      object-fit: contain;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    .institution-center {
+      height: var(--logo-size);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .affiliation {
+      color: #000;
+      font-size: var(--affiliation-size);
+      line-height: 1.25;
+      font-family: "Times New Roman", Times, serif;
+      text-align: center;
+    }
+
+    .affiliation-line { display: block; text-align: center; white-space: normal; }
+
+    .links {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 126px;
+      padding: 11px 22px;
+      border-radius: 999px;
+      background: var(--dark);
+      color: #fff;
+      font-family: Arial, "Noto Sans", sans-serif;
+      font-weight: 700;
+      font-size: 1.08rem;
+      line-height: 1;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    .btn i { margin-right: 9px; font-size: 1.12rem; }
+    .btn:hover { transform: translateY(-1px); opacity: 0.92; }
+    .btn.blue { background: var(--blue); }
+
+    .section { padding: 46px 0; }
+    .section.gray { background: var(--soft-bg); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+    .section-title {
+      margin: 0 0 18px;
+      text-align: center;
+      font-family: "Times New Roman", Times, serif;
+      font-size: clamp(1.65rem, 2.8vw, 2.25rem);
+      font-weight: 700;
+      color: #333;
+    }
+
+    .section-line { width: 100%; height: 1px; background: var(--line); margin: 0 auto 26px; }
+
+    .abstract-row {
+      display: grid;
+      grid-template-columns: minmax(360px, 1fr) minmax(360px, 1fr);
+      gap: 30px;
+      align-items: start;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .abstract-row .text-block { max-width: none; margin: 0; font-size: var(--main-text-size); display: block; }
+    .text-block { max-width: 1050px; margin: 0 auto; font-size: var(--main-text-size); text-align: justify; }
+    .text-block p { margin: 0 0 14px; text-indent: 2em; }
+    .text-block p:first-child { margin-top: 0; }
+    .abstract-single { margin: 0; text-indent: 2em; text-align: justify; }
+
+    .motivation-figure { width: 100%; max-width: none; min-width: 0; margin: 0 auto; display: block; align-self: start; }
+    .motivation-img-frame { display: flex; align-items: flex-start; justify-content: center; width: 100%; }
+    .motivation-img-frame img { width: 100%; height: auto; object-fit: contain; object-position: top center; }
+    .motivation-caption {
+      margin-top: 10px;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.05rem;
+      line-height: 1.35;
+      color: #222;
+      text-align: justify;
+    }
+    .motivation-caption .fig-label { color: #000; font-weight: 400; }
+
+    .keywords { max-width: 1050px; margin: 20px auto 0; color: var(--muted); font-size: var(--main-text-size); text-align: center; }
+
+    .figure {
+      max-width: 1120px; margin: 0 auto; padding: 16px; border: 1px solid var(--line);
+      border-radius: 14px; background: #fff; box-shadow: 0 12px 28px rgba(16, 24, 40, 0.06);
+    }
+    .figure.plain { padding: 0; border: none; box-shadow: none; background: transparent; }
+    .figure img { margin: 0 auto; border-radius: 8px; }
+    .caption { margin-top: 12px; color: var(--muted); font-size: 1.05rem; text-align: center; line-height: 1.45; }
+
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: start; max-width: 1120px; margin: 0 auto;}
+    .card { height: 100%; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: 0 10px 24px rgba(16, 24, 40, 0.05); }
+    .card h3 { margin: 0 0 10px; font-family: "Times New Roman", Times, serif; font-size: 1.34rem; font-weight: 700; color: #111; }
+    .card p { margin: 0; color: #333; text-align: justify; font-size: var(--main-text-size); }
+
+    .funding-text { max-width: 1040px; margin: 0 auto; color: #333; font-family: "Times New Roman", Times, serif; font-size: var(--main-text-size); line-height: 1.55; text-align: center; }
+
+    .footer { padding: 28px 0; color: var(--muted); text-align: center; border-top: 1px solid var(--line); background: #fbfcfe; font-size: 1.05rem; }
+
+    @media (max-width: 840px) {
+      :root { --logo-size: 88px; }
+      .container { width: min(100% - 24px, var(--maxw)); }
+      .hero { padding-top: 42px; }
+      .authors { font-size: 1.14rem; }
+      .institution-row { grid-template-columns: auto auto; column-gap: 14px; row-gap: 10px; }
+      .institution-center { grid-column: 1 / -1; grid-row: 2; height: auto; gap: 12px; }
+      .affiliation { font-size: 1.14rem; }
+      .school-logo { width: var(--logo-size); height: var(--logo-size); }
+      .text-block, .abstract-row .text-block, .card p, .keywords, .funding-text { font-size: 1.05rem; }
+      .title-line1 { font-size: 1.75rem; }
+      .title-line2 { font-size: 1.55rem; }
+      .abstract-row, .grid { grid-template-columns: 1fr; }
+      .btn { min-width: 120px; padding: 11px 20px; font-size: 1.04rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="hero">
+    <div class="container">
+      <div class="paper-title title-line1">SAGE-VLM: Spatially-Decoupled Rotary Encoding and </div>
+      <div class="paper-title title-line2">Semantic Residual Gating for Multi-View Vision-Language Models</div>
+
+      <div class="authors">
+        <span>Jun Zhang,</span>
+        <span>Bin Zhu,</span>
+        <span>Jiazhan Gao,</span>
+        <span>Zuolong Li,</span>
+        <span>Jihong Zhu, <span class="membership">Member, IEEE</span>,</span>
+        <span>and Askar Hamdulla, <span class="membership">Member, IEEE</span></span>
+      </div>
+
+      <div class="institution-row">
+        <!-- Replace with actual Xinjiang University Logo -->
+        <img class="school-logo" src="imgs/XJU.png" alt="Xinjiang University Logo" onerror="this.src='https://via.placeholder.com/122?text=XJU'">
+
+        <div class="institution-center">
+          <div class="affiliation">
+            <span class="affiliation-line">School of Intelligent Science and Technology / Computer Science, Xinjiang University</span>
+            <span class="affiliation-line">Department of Automation / Precision Instruments, Tsinghua University</span>
+          </div>
+
+          <div class="links">
+            <a class="btn" href="assets/SAGE-VLM.pdf" target="_blank"><i class="fas fa-file-pdf"></i>Paper</a>
+            <a class="btn blue" href="https://github.com/luckzhang5/SAGE-VLM" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i>Code & Models</a>
+          </div>
+        </div>
+
+        <!-- Replace with actual Tsinghua University Logo -->
+        <img class="school-logo" src="imgs/THU.png" alt="Tsinghua University Logo" onerror="this.src='https://via.placeholder.com/122?text=THU'">
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Abstract</h2>
+      <div class="section-line"></div>
+
+      <div class="abstract-row">
+        <div class="text-block">
+          <p class="abstract-single">
+            Recent advancements in vision-language models have shown immense potential for autonomous system perception. However, deploying these frameworks in highly dynamic, complex urban environments (e.g., dense traffic intersections, interactive pedestrian zones) remains severely restricted due to the critical demands for real-time inference on edge devices. To address these limitations, we present a highly efficient framework named <b>SAGE-VLM</b>. Existing architectures often suffer from two critical bottlenecks: they apply standard multi-directional 2D encodings that cause severe coordinate aliasing across concatenated multi-view sequences, and they employ destructive text-conditioned pooling mechanisms that collapse rigid spatial topologies, risking the erasure of unprompted safety-critical obstacles. 
+          </p>
+          <p class="abstract-single">
+            Within the proposed SAGE-VLM, we introduce two core architectural innovations. First, a Multi-View Decoupled 2D Rotary Positional Encoding <b>(MVD-RoPE)</b> mechanism explicitly injects fine-grained spatial inductive biases natively into attention layers by decoupling continuous view boundaries, eliminating multi-camera spatial confusion. Second, a Semantic-Conditioned Visual Residual <b>(SCVR)</b> module distills an adaptive pure text query to act as a non-destructive semantic gate. Rather than destructively pooling features, this module dynamically filters background noise while using a residual pathway to preserve underlying spatial topology. Remarkably, despite utilizing a highly condensed backbone (20.3M parameters), SAGE-VLM delivers superior cross-modal reasoning and generation accuracy compared to existing baselines in larger parameter regimes.
+          </p>
+        </div>
+
+        <div class="figure plain motivation-figure">
+          <div class="motivation-img-frame">
+            <!-- Replace with Fig 1 (Structural comparison) from your paper -->
+            <img src="imgs/fig1_comparison.jpg" alt="Structural comparison of SAGE-VLM vs Traditional VLM" onerror="this.src='https://via.placeholder.com/600x400?text=Fig+1:+Structural+Comparison'">
+          </div>
+          <div class="motivation-caption">
+            <span class="fig-label">Fig. 1.</span> Structural comparison. (Top) Traditional frameworks lack explicit 2D spatial awareness and suffer from visual noise dilution. (Bottom) SAGE-VLM introduces MVD-RoPE for spatial encoding and SCVR gate for visual feature purification prior to token aggregation.
+          </div>
+        </div>
+      </div>
+
+      <div class="keywords">
+        <b>Keywords:</b> Vision-Language Models, Autonomous Perception, Rotary Positional Encoding, Parameter Efficiency, Cross-Modal Fusion.
+      </div>
+    </div>
+  </section>
+
+  <section class="section gray">
+    <div class="container">
+      <h2 class="section-title">Motivation & Challenges</h2>
+      <div class="section-line"></div>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Multi-View Coordinate Aliasing</h3>
+          <p>
+            Standard ID positional encodings or generic multi-directional 2D embeddings fail for concatenated multi-view sequences, causing non-physical coordinate hopping and spatial confusion at camera perspective boundaries.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Destructive Semantic Pooling</h3>
+          <p>
+            Existing text-conditioned hard-dropping or pooling mechanisms destructively compress visual features. If the text fails to prompt a specific object (like a pedestrian), these methods risk "semantic blindness" by erasing critical obstacles.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Severe Edge Constraints</h3>
+          <p>
+            Operating robustly in interactive traffic scenarios demands extremely low-latency inference. Standard LLM-based autonomous models possess billions of parameters, prohibiting real-time execution on resource-constrained edge hardware.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Visual Noise Dilution</h3>
+          <p>
+            High-resolution multi-view observations yield massive token collections. Directly fusing these features without extracting pure semantic anchors often dilutes visual signals with task-irrelevant backgrounds.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Overall Architecture of SAGE-VLM</h2>
+      <div class="section-line"></div>
+
+      <div class="figure">
+        <!-- Replace with Fig 2 (Comprehensive pipeline overview) from your paper -->
+        <img src="imgs/fig2_architecture.jpg" alt="Overall architecture of SAGE-VLM" onerror="this.src='https://via.placeholder.com/1000x500?text=Fig+2:+SAGE-VLM+Architecture'">
+        <div class="caption">
+          Fig. 2. Comprehensive pipeline overview. SAGE-VLM processes continuous frame sequences through a lightweight backbone, preserves spatial relations via MVD-RoPE, and purifies cross-modal feature flows using the SCVR non-destructive gate before optimal transport aggregation.
+        </div>
+      </div>
+
+      <div class="text-block" style="margin-top: 26px;">
+        <p>
+          SAGE-VLM safely projects high-dimensional multi-view continuous frame sequences into a condensed linguistic representation. The raw visual frames are passed through a frozen, high-efficiency backbone (e.g., MobileViTV2).
+        </p>
+        <p>
+          To prevent coordinate confusion, features are processed by the <b>MVD-RoPE</b> module. Concurrently, textual tokens are refined via an Adaptive Sparse Extractor into a <b>Pure Text Query</b>. This query dynamically modulates the spatial tokens through the <b>SCVR</b> module via a fail-safe gate, yielding noise-resistant features, which are finally aggregated via a Text-Guided Soft-Sort Pooling (TGSSP) matrix for the downstream language model.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section gray">
+    <div class="container">
+      <h2 class="section-title">Core Innovations: MVD-RoPE and SCVR</h2>
+      <div class="section-line"></div>
+
+      <div class="grid" style="grid-template-columns: 1fr 1fr; align-items: stretch;">
+        <div class="figure plain">
+          <!-- Replace with Fig 3 (MVD-RoPE) -->
+          <img src="imgs/fig3_mvd_rope.jpg" alt="Structure of MVD-RoPE" onerror="this.src='https://via.placeholder.com/500x350?text=Fig+3:+MVD-RoPE'">
+          <div class="caption">
+            <b>MVD-RoPE:</b> Decouples continuous view boundaries to eliminate cross-view aliasing while explicitly injecting exact 2D topological inductive biases.
+          </div>
+        </div>
+
+        <div class="figure plain">
+          <!-- Replace with Fig 4 (SCVR Internal Design) -->
+          <img src="imgs/fig4_scvr.jpg" alt="Structure of SCVR" onerror="this.src='https://via.placeholder.com/500x350?text=Fig+4:+SCVR+Module'">
+          <div class="caption">
+            <b>SCVR Gating:</b> Distills an adaptive pure text query to drive a non-destructive residual gate, preserving baseline spatial topologies via an identity bypass (+).
+          </div>
+        </div>
+      </div>
+
+      <div class="text-block" style="margin-top: 26px;">
+        <p>
+          <b>Multi-View Decoupled 2D RoPE (MVD-RoPE):</b> By strictly decoupling the local spatial grids corresponding to independent continuous shots, and applying orthogonal rotary operations across decoupled axes, MVD-RoPE preserves intrinsic 2D geometric distances natively within attention layers at zero additional parameter cost during inference.
+        </p>
+        <p>
+          <b>Semantic-Conditioned Visual Residual (SCVR):</b> SCVR extracts a purified text query using an adaptive sparse keyword extractor (applying F.relu dynamic sparsity). Instead of destructive hard-dropping, it uses the query to generate a multi-modal residual gate. The residual addition rule ($V_{final} = V_{visual} + Gate \odot V_{visual}$) ensures unprompted critical obstacles are structurally preserved for downstream planning.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Detection Performance & Efficiency</h2>
+      <div class="section-line"></div>
+
+      <div class="figure">
+        <!-- Replace with Table 1 and Table 2 combined image or recreate the table -->
+        <img src="imgs/tables_performance.jpg" alt="Performance Tables" onerror="this.src='https://via.placeholder.com/900x400?text=Tables+I+%26+II:+Performance+and+Efficiency'">
+        <div class="caption">
+          Comparison of model performance on DriveLM benchmark and VRAM utilization. Our Tiny variant operates at just 20.3M parameters and 0.19 GB Memory, yet surpasses larger base architectures in BLEU-4 and CIDEr scores.
+        </div>
+      </div>
+
+      <div class="text-block" style="margin-top: 26px;">
+        <p>
+          Evaluated on the demanding DriveLM benchmark, SAGE-VLM demonstrates a profound pattern of parameter efficiency. Our <b>SAGE-VLM-Tiny</b> configuration (capped at 20.3M parameters) achieves a BLEU-4 of 54.11 and CIDEr of 3.38, successfully outperforming standard baseline architectures (like EM-VLM4AD-Base with 235M params) operating with nearly 10x the parameter footprint. 
+        </p>
+        <p>
+          Crucially for edge deployment, SAGE-VLM consumes only <b>0.19 GB of continuous memory</b> while sustaining 19.90 GFLOPs of processing capability, rendering it exceptionally suitable for real-time local execution in unpredictable urban driving environments.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section gray">
+    <div class="container">
+      <h2 class="section-title">Qualitative Analysis and Safety Assurance</h2>
+      <div class="section-line"></div>
+      
+      <div class="grid" style="grid-template-columns: 1fr 1fr; align-items: start;">
+        <div class="figure plain">
+          <!-- Replace with Fig 5 (Qualitative validation of SCVR) -->
+          <img src="imgs/fig5_safety.jpg" alt="Qualitative validation of SCVR" onerror="this.src='https://via.placeholder.com/500x350?text=Fig+5:+Safety+Assurance'">
+          <div class="caption">
+            <b>Fig. 5:</b> Traditional methods (left) erroneously eradicate unprompted pedestrians. SAGE-VLM (right) utilizes a fail-safe residual combination rule, preserving non-prompted obstacles.
+          </div>
+        </div>
+
+        <div class="figure plain">
+          <!-- Replace with Fig 6 (Text generation demonstration) -->
+          <img src="imgs/fig6_generation.jpg" alt="Text generation demonstration" onerror="this.src='https://via.placeholder.com/500x350?text=Fig+6:+Generated+Responses'">
+          <div class="caption">
+            <b>Fig. 6:</b> The precise correlation between the enhanced semantic focal regions and correctly generated linguistic output.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Conclusion</h2>
+      <div class="section-line"></div>
+
+      <div class="text-block">
+        <p>
+          In this paper, we conducted a systematic investigation into lightweight Vision-Language Models for multi-view autonomous perception and presented SAGE-VLM. By explicitly preserving 2D spatial invariants via MVD-RoPE and preventing semantic blindness to unprompted obstacles via SCVR non-destructive gating, our framework establishes a robust, fail-safe paradigm for highly compressed multi-modal intelligence.
+        </p>
+        <p>
+          Optimized specifically for real-time edge deployment in complex, dynamic urban driving environments, our 20.3M Tiny model configuration cross-scales and outperforms baseline frameworks utilizing significantly larger parameter regimes across complex multimodal reasoning metrics.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section gray">
+    <div class="container">
+      <h2 class="section-title">Funding & Acknowledgments</h2>
+      <div class="section-line"></div>
+
+      <div class="funding-text">
+        This work was supported in part by the National Natural Science Foundation of China under Grant 62541328, and in part by the Tianshan Talent Cultivation Program Scientific and Technological Innovation Leading Talents under Grant 2024TSYCLJ0002.
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      SAGE-VLM Project Page &copy; 2026. Code available at <a href="https://github.com/luckzhang5/SAGE-VLM" target="_blank" style="color:var(--blue); text-decoration:underline;">GitHub</a>.
+    </div>
+  </footer>
+</body>
+</html>
