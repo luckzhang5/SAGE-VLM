@@ -149,51 +149,32 @@
 
     .section-line { width: 100%; height: 1px; background: var(--line); margin: 0 auto 26px; }
 
-    .abstract-wrapper {
-      max-width: 1120px;
-      margin: 0 auto;
-    }
-    .abstract-wrapper::after {
-      content: "";
-      display: table;
-      clear: both;
-    }
-    .abstract-figure-float {
-      float: right;
-      width: 44%; 
-      margin: 8px 0 20px 36px; 
-    }
-    .abstract-figure-float img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .abstract-caption-float {
-      margin-top: 12px;
-      font-family: "Times New Roman", Times, serif;
-      font-size: 1.05rem;
-      line-height: 1.4;
-      color: var(--muted);
-      text-align: justify;
-    }
-    .abstract-text-float {
-      font-size: var(--main-text-size);
-      text-align: justify;
-    }
-    .abstract-text-float p {
-      margin: 0 0 14px;
-      text-indent: 2em;
-    }
-    .abstract-text-float p:first-child {
-      margin-top: 0;
-    }
-
     .text-block { max-width: 1050px; margin: 0 auto; font-size: var(--main-text-size); text-align: justify; }
     .text-block p { margin: 0 0 14px; text-indent: 2em; }
     .text-block p:first-child { margin-top: 0; }
 
-    .keywords { max-width: 1050px; margin: 25px auto 0; color: var(--muted); font-size: var(--main-text-size); text-align: center; }
+    .abstract-large-figure {
+      max-width: 900px;
+      margin: 35px auto 0;
+      display: block;
+    }
+    .abstract-large-figure img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      margin: 0 auto;
+    }
+    .abstract-large-caption {
+      margin-top: 15px;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.1rem;
+      line-height: 1.45;
+      color: var(--muted);
+      text-align: justify;
+    }
+
+    .keywords { max-width: 1050px; margin: 35px auto 0; color: var(--muted); font-size: var(--main-text-size); text-align: center; }
 
     .figure {
       max-width: 1120px; margin: 0 auto; padding: 16px; border: 1px solid var(--line);
@@ -244,12 +225,7 @@
       .title-line1 { font-size: 1.75rem; }
       .title-line2 { font-size: 1.55rem; }
       
-      .abstract-figure-float {
-        float: none;
-        width: 100%;
-        margin: 0 0 20px 0;
-      }
-      .abstract-text-float { font-size: 1.05rem; }
+      .abstract-large-figure { margin-top: 25px; }
 
       .grid, .performance-figures { grid-template-columns: 1fr; gap: 24px; }
       .btn { min-width: 120px; padding: 11px 20px; font-size: 1.04rem; }
@@ -302,21 +278,19 @@
       <h2 class="section-title">Abstract</h2>
       <div class="section-line"></div>
 
-      <div class="abstract-wrapper">
-        <div class="abstract-figure-float">
-          <img src="image/4.png" alt="Abstract Representation of SAGE-VLM" onerror="this.src='https://via.placeholder.com/600x450?text=Image+4'">
-          <div class="abstract-caption-float">
-            Conceptual overview. SAGE-VLM ensures real-time multimodal perception while natively safeguarding geometric and semantic structures against dilution.
-          </div>
-        </div>
+      <div class="text-block">
+        <p>
+          Recent advancements in vision-language models have shown immense potential for autonomous system perception. However, deploying these frameworks in highly dynamic, complex urban environments (e.g., dense traffic intersections, interactive pedestrian zones) remains severely restricted due to the critical demands for real-time inference on edge devices. To address these limitations, we present a highly efficient framework named <b>SAGE-VLM</b>. Existing architectures often suffer from two critical bottlenecks: they apply standard multi-directional 2D encodings that cause severe coordinate aliasing across concatenated multi-view sequences, and they employ destructive text-conditioned pooling mechanisms that collapse rigid spatial topologies, risking the erasure of unprompted safety-critical obstacles. 
+        </p>
+        <p>
+          Within the proposed SAGE-VLM, we introduce two core architectural innovations. First, a Multi-View Decoupled 2D Rotary Positional Encoding <b>(MVD-RoPE)</b> mechanism explicitly injects fine-grained spatial inductive biases natively into attention layers by decoupling continuous view boundaries, eliminating multi-camera spatial confusion. Second, a Semantic-Conditioned Visual Residual <b>(SCVR)</b> module distills an adaptive pure text query to act as a non-destructive semantic gate. Rather than destructively pooling features, this module dynamically filters background noise while using a residual pathway to preserve underlying spatial topology. Remarkably, despite utilizing a highly condensed backbone (20.3M parameters), SAGE-VLM delivers superior cross-modal reasoning and generation accuracy compared to existing baselines in larger parameter regimes.
+        </p>
+      </div>
 
-        <div class="abstract-text-float">
-          <p>
-            Recent advancements in vision-language models have shown immense potential for autonomous system perception. However, deploying these frameworks in highly dynamic, complex urban environments (e.g., dense traffic intersections, interactive pedestrian zones) remains severely restricted due to the critical demands for real-time inference on edge devices. To address these limitations, we present a highly efficient framework named <b>SAGE-VLM</b>. Existing architectures often suffer from two critical bottlenecks: they apply standard multi-directional 2D encodings that cause severe coordinate aliasing across concatenated multi-view sequences, and they employ destructive text-conditioned pooling mechanisms that collapse rigid spatial topologies, risking the erasure of unprompted safety-critical obstacles. 
-          </p>
-          <p>
-            Within the proposed SAGE-VLM, we introduce two core architectural innovations. First, a Multi-View Decoupled 2D Rotary Positional Encoding <b>(MVD-RoPE)</b> mechanism explicitly injects fine-grained spatial inductive biases natively into attention layers by decoupling continuous view boundaries, eliminating multi-camera spatial confusion. Second, a Semantic-Conditioned Visual Residual <b>(SCVR)</b> module distills an adaptive pure text query to act as a non-destructive semantic gate. Rather than destructively pooling features, this module dynamically filters background noise while using a residual pathway to preserve underlying spatial topology. Remarkably, despite utilizing a highly condensed backbone (20.3M parameters), SAGE-VLM delivers superior cross-modal reasoning and generation accuracy compared to existing baselines in larger parameter regimes.
-          </p>
+      <div class="figure plain abstract-large-figure">
+        <img src="image/4.png" alt="Abstract Representation of SAGE-VLM" onerror="this.src='https://via.placeholder.com/900x500?text=Image+4'">
+        <div class="abstract-large-caption">
+          Conceptual overview. SAGE-VLM ensures real-time multimodal perception while natively safeguarding geometric and semantic structures against dilution.
         </div>
       </div>
 
