@@ -25,7 +25,7 @@
       --main-text-size: 1.22rem;
       --affiliation-size: 1.38rem;
       --maxw: 1180px;
-      --logo-size: 122px;
+      --logo-size: 140px; 
     }
 
     * { box-sizing: border-box; }
@@ -63,55 +63,53 @@
     .title-line1 { font-size: clamp(1.85rem, 3.2vw, 2.35rem); display: block; margin-bottom: 3px; white-space: normal; }
     .title-line2 { font-size: clamp(1.65rem, 3vw, 2.15rem); display: block; margin-top: 0; white-space: normal; }
 
-    .authors {
-      margin-top: 20px;
-      font-size: var(--affiliation-size);
-      color: #000;
-      line-height: 1.45;
-      font-family: "Times New Roman", Times, serif;
+    .header-main-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1080px;
+      margin: 25px auto 0;
+      gap: 20px;
     }
 
-    .authors span { display: inline-block; margin: 0 5px 4px; }
-    .membership { color: #000; font-style: italic; white-space: nowrap; }
-
-    .institution-row {
-      margin: 12px auto 0;
-      display: grid;
-      grid-template-columns: auto minmax(0, 760px) auto;
+    .header-center {
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      column-gap: 14px;
+      flex: 1;
+      gap: 16px;
     }
 
     .school-logo {
       width: var(--logo-size);
       height: var(--logo-size);
       object-fit: contain;
-      border-radius: 50%;
-      background: #fff;
+      flex-shrink: 0;
     }
 
-    .institution-center {
-      height: var(--logo-size);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
+    .authors {
+      font-size: var(--affiliation-size);
+      color: #000;
+      line-height: 1.45;
+      font-family: "Times New Roman", Times, serif;
     }
+
+    .authors span { display: inline-block; margin: 0 5px; }
+    .membership { color: #000; font-style: italic; white-space: nowrap; }
+
+    .orcid-link { display: inline-flex; align-items: center; justify-content: center; margin-left: 4px; vertical-align: -0.08em; }
+    .orcid-icon-svg { width: 18px; height: 18px; display: inline-block; }
 
     .affiliation {
       color: #000;
       font-size: var(--affiliation-size);
-      line-height: 1.25;
+      line-height: 1.35;
       font-family: "Times New Roman", Times, serif;
       text-align: center;
     }
-
     .affiliation-line { display: block; text-align: center; white-space: normal; }
 
     .links {
-      margin: 0;
       display: flex;
       justify-content: center;
       gap: 14px;
@@ -153,9 +151,9 @@
 
     .abstract-row {
       display: grid;
-      grid-template-columns: minmax(360px, 1fr) minmax(360px, 1fr);
-      gap: 30px;
-      align-items: start;
+      grid-template-columns: 1.15fr 0.85fr; 
+      gap: 40px;
+      align-items: center; 
       max-width: 1120px;
       margin: 0 auto;
     }
@@ -166,51 +164,69 @@
     .text-block p:first-child { margin-top: 0; }
     .abstract-single { margin: 0; text-indent: 2em; text-align: justify; }
 
-    .motivation-figure { width: 100%; max-width: none; min-width: 0; margin: 0 auto; display: block; align-self: start; }
-    .motivation-img-frame { display: flex; align-items: flex-start; justify-content: center; width: 100%; }
-    .motivation-img-frame img { width: 100%; height: auto; object-fit: contain; object-position: top center; }
+    .motivation-figure { width: 100%; max-width: none; min-width: 0; margin: 0 auto; display: block; }
+    .motivation-img-frame { display: flex; align-items: center; justify-content: center; width: 100%; }
+    .motivation-img-frame img { width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
     .motivation-caption {
-      margin-top: 10px;
+      margin-top: 12px;
       font-family: "Times New Roman", Times, serif;
       font-size: 1.05rem;
-      line-height: 1.35;
-      color: #222;
+      line-height: 1.4;
+      color: var(--muted);
       text-align: justify;
     }
-    .motivation-caption .fig-label { color: #000; font-weight: 400; }
 
-    .keywords { max-width: 1050px; margin: 20px auto 0; color: var(--muted); font-size: var(--main-text-size); text-align: center; }
+    .keywords { max-width: 1050px; margin: 25px auto 0; color: var(--muted); font-size: var(--main-text-size); text-align: center; }
 
     .figure {
       max-width: 1120px; margin: 0 auto; padding: 16px; border: 1px solid var(--line);
       border-radius: 14px; background: #fff; box-shadow: 0 12px 28px rgba(16, 24, 40, 0.06);
     }
     .figure.plain { padding: 0; border: none; box-shadow: none; background: transparent; }
-    .figure img { margin: 0 auto; border-radius: 8px; }
+    .figure img { margin: 0 auto; border-radius: 8px; width: 100%; }
     .caption { margin-top: 12px; color: var(--muted); font-size: 1.05rem; text-align: center; line-height: 1.45; }
 
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: start; max-width: 1120px; margin: 0 auto;}
-    .card { height: 100%; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: 0 10px 24px rgba(16, 24, 40, 0.05); }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; align-items: stretch; max-width: 1120px; margin: 0 auto;}
+    .card { padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: 0 10px 24px rgba(16, 24, 40, 0.05); }
     .card h3 { margin: 0 0 10px; font-family: "Times New Roman", Times, serif; font-size: 1.34rem; font-weight: 700; color: #111; }
     .card p { margin: 0; color: #333; text-align: justify; font-size: var(--main-text-size); }
+
+    .performance-figures {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
 
     .funding-text { max-width: 1040px; margin: 0 auto; color: #333; font-family: "Times New Roman", Times, serif; font-size: var(--main-text-size); line-height: 1.55; text-align: center; }
 
     .footer { padding: 28px 0; color: var(--muted); text-align: center; border-top: 1px solid var(--line); background: #fbfcfe; font-size: 1.05rem; }
 
     @media (max-width: 840px) {
-      :root { --logo-size: 88px; }
+      :root { --logo-size: 80px; }
       .container { width: min(100% - 24px, var(--maxw)); }
       .hero { padding-top: 42px; }
+      
+      .header-main-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+      .logo-left { justify-self: center; }
+      .logo-right { justify-self: center; }
+      .header-center {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+
       .authors { font-size: 1.14rem; }
-      .institution-row { grid-template-columns: auto auto; column-gap: 14px; row-gap: 10px; }
-      .institution-center { grid-column: 1 / -1; grid-row: 2; height: auto; gap: 12px; }
       .affiliation { font-size: 1.14rem; }
-      .school-logo { width: var(--logo-size); height: var(--logo-size); }
       .text-block, .abstract-row .text-block, .card p, .keywords, .funding-text { font-size: 1.05rem; }
       .title-line1 { font-size: 1.75rem; }
       .title-line2 { font-size: 1.55rem; }
-      .abstract-row, .grid { grid-template-columns: 1fr; }
+      .abstract-row, .grid, .performance-figures { grid-template-columns: 1fr; gap: 24px; }
       .btn { min-width: 120px; padding: 11px 20px; font-size: 1.04rem; }
     }
   </style>
@@ -222,20 +238,21 @@
       <div class="paper-title title-line1">SAGE-VLM: Spatially-Decoupled Rotary Encoding and </div>
       <div class="paper-title title-line2">Semantic Residual Gating for Multi-View Vision-Language Models</div>
 
-      <div class="authors">
-        <span>Jun Zhang,</span>
-        <span>Bin Zhu,</span>
-        <span>Jiazhan Gao,</span>
-        <span>Zuolong Li,</span>
-        <span>Jihong Zhu, <span class="membership">Member, IEEE</span>,</span>
-        <span>and Askar Hamdulla, <span class="membership">Member, IEEE</span></span>
-      </div>
+      <div class="header-main-row">
+        <div class="logo-left">
+          <img class="school-logo" src="image/XJU.png" alt="Xinjiang University Logo" onerror="this.src='https://via.placeholder.com/140?text=XJU'">
+        </div>
 
-      <div class="institution-row">
-        <!-- Replace with actual Xinjiang University Logo -->
-        <img class="school-logo" src="imgs/XJU.png" alt="Xinjiang University Logo" onerror="this.src='https://via.placeholder.com/122?text=XJU'">
+        <div class="header-center">
+          <div class="authors">
+            <span>Jun Zhang<a class="orcid-link" href="#"><svg class="orcid-icon-svg" viewBox="0 0 256 256"><circle cx="128" cy="128" r="128" fill="#A6CE39"></circle><text x="128" y="166" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700">iD</text></svg></a>,</span>
+            <span>Bin Zhu<a class="orcid-link" href="#"><svg class="orcid-icon-svg" viewBox="0 0 256 256"><circle cx="128" cy="128" r="128" fill="#A6CE39"></circle><text x="128" y="166" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700">iD</text></svg></a>,</span>
+            <span>Jiazhan Gao<a class="orcid-link" href="#"><svg class="orcid-icon-svg" viewBox="0 0 256 256"><circle cx="128" cy="128" r="128" fill="#A6CE39"></circle><text x="128" y="166" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700">iD</text></svg></a>,</span>
+            <span>Zuolong Li<a class="orcid-link" href="#"><svg class="orcid-icon-svg" viewBox="0 0 256 256"><circle cx="128" cy="128" r="128" fill="#A6CE39"></circle><text x="128" y="166" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="116" font-weight="700">iD</text></svg></a>,</span><br>
+            <span>Jihong Zhu, <span class="membership">Member, IEEE</span>,</span>
+            <span>and Askar Hamdulla, <span class="membership">Member, IEEE</span></span>
+          </div>
 
-        <div class="institution-center">
           <div class="affiliation">
             <span class="affiliation-line">School of Intelligent Science and Technology / Computer Science, Xinjiang University</span>
             <span class="affiliation-line">Department of Automation / Precision Instruments, Tsinghua University</span>
@@ -247,9 +264,11 @@
           </div>
         </div>
 
-        <!-- Replace with actual Tsinghua University Logo -->
-        <img class="school-logo" src="imgs/THU.png" alt="Tsinghua University Logo" onerror="this.src='https://via.placeholder.com/122?text=THU'">
+        <div class="logo-right">
+          <img class="school-logo" src="image/THU.png" alt="Tsinghua University Logo" onerror="this.src='https://via.placeholder.com/140?text=THU'">
+        </div>
       </div>
+
     </div>
   </header>
 
@@ -270,11 +289,10 @@
 
         <div class="figure plain motivation-figure">
           <div class="motivation-img-frame">
-            <!-- Replace with Fig 1 (Structural comparison) from your paper -->
-            <img src="imgs/fig1_comparison.jpg" alt="Structural comparison of SAGE-VLM vs Traditional VLM" onerror="this.src='https://via.placeholder.com/600x400?text=Fig+1:+Structural+Comparison'">
+            <img src="image/4.png" alt="Abstract Representation of SAGE-VLM" onerror="this.src='https://via.placeholder.com/600x450?text=Image+4'">
           </div>
           <div class="motivation-caption">
-            <span class="fig-label">Fig. 1.</span> Structural comparison. (Top) Traditional frameworks lack explicit 2D spatial awareness and suffer from visual noise dilution. (Bottom) SAGE-VLM introduces MVD-RoPE for spatial encoding and SCVR gate for visual feature purification prior to token aggregation.
+            Conceptual overview. SAGE-VLM ensures real-time multimodal perception while natively safeguarding geometric and semantic structures against dilution.
           </div>
         </div>
       </div>
@@ -328,10 +346,10 @@
       <div class="section-line"></div>
 
       <div class="figure">
-        <!-- Replace with Fig 2 (Comprehensive pipeline overview) from your paper -->
-        <img src="imgs/fig2_architecture.jpg" alt="Overall architecture of SAGE-VLM" onerror="this.src='https://via.placeholder.com/1000x500?text=Fig+2:+SAGE-VLM+Architecture'">
+        <!-- 整体架构图 image/1.png -->
+        <img src="image/1.png" alt="Overall architecture of SAGE-VLM" onerror="this.src='https://via.placeholder.com/1000x500?text=Overall+Architecture'">
         <div class="caption">
-          Fig. 2. Comprehensive pipeline overview. SAGE-VLM processes continuous frame sequences through a lightweight backbone, preserves spatial relations via MVD-RoPE, and purifies cross-modal feature flows using the SCVR non-destructive gate before optimal transport aggregation.
+          Comprehensive pipeline overview. SAGE-VLM processes continuous frame sequences through a lightweight backbone, preserves spatial relations via MVD-RoPE, and purifies cross-modal feature flows using the SCVR non-destructive gate before optimal transport aggregation.
         </div>
       </div>
 
@@ -351,20 +369,20 @@
       <h2 class="section-title">Core Innovations: MVD-RoPE and SCVR</h2>
       <div class="section-line"></div>
 
-      <div class="grid" style="grid-template-columns: 1fr 1fr; align-items: stretch;">
+      <div class="grid">
         <div class="figure plain">
-          <!-- Replace with Fig 3 (MVD-RoPE) -->
-          <img src="imgs/fig3_mvd_rope.jpg" alt="Structure of MVD-RoPE" onerror="this.src='https://via.placeholder.com/500x350?text=Fig+3:+MVD-RoPE'">
+          <!-- 2D RoPE 模块示意图 image/2d.png -->
+          <img src="image/2d.png" alt="Structure of MVD-RoPE" onerror="this.src='https://via.placeholder.com/500x350?text=MVD-RoPE+Module'">
           <div class="caption">
             <b>MVD-RoPE:</b> Decouples continuous view boundaries to eliminate cross-view aliasing while explicitly injecting exact 2D topological inductive biases.
           </div>
         </div>
 
         <div class="figure plain">
-          <!-- Replace with Fig 4 (SCVR Internal Design) -->
-          <img src="imgs/fig4_scvr.jpg" alt="Structure of SCVR" onerror="this.src='https://via.placeholder.com/500x350?text=Fig+4:+SCVR+Module'">
+          <!-- 文本图形先验融合模块 image/ronghe.png -->
+          <img src="image/ronghe.png" alt="Structure of SCVR" onerror="this.src='https://via.placeholder.com/500x350?text=SCVR+Module'">
           <div class="caption">
-            <b>SCVR Gating:</b> Distills an adaptive pure text query to drive a non-destructive residual gate, preserving baseline spatial topologies via an identity bypass (+).
+            <b>Semantic-Conditioned Fusion:</b> Distills an adaptive pure text query to drive a non-destructive residual gate, preserving baseline spatial topologies via an identity bypass (+).
           </div>
         </div>
       </div>
@@ -385,17 +403,27 @@
       <h2 class="section-title">Detection Performance & Efficiency</h2>
       <div class="section-line"></div>
 
-      <div class="figure">
-        <!-- Replace with Table 1 and Table 2 combined image or recreate the table -->
-        <img src="imgs/tables_performance.jpg" alt="Performance Tables" onerror="this.src='https://via.placeholder.com/900x400?text=Tables+I+%26+II:+Performance+and+Efficiency'">
-        <div class="caption">
-          Comparison of model performance on DriveLM benchmark and VRAM utilization. Our Tiny variant operates at just 20.3M parameters and 0.19 GB Memory, yet surpasses larger base architectures in BLEU-4 and CIDEr scores.
+      <div class="performance-figures">
+        <div class="figure plain">
+          <!-- 评估结果图 image/02.png -->
+          <img src="image/02.png" alt="Performance Evaluation" onerror="this.src='https://via.placeholder.com/500x400?text=Performance+Evaluation'">
+          <div class="caption">
+            Comparison of model performance on benchmark. Our model surpasses baseline architectures in reasoning capabilities.
+          </div>
+        </div>
+
+        <div class="figure plain">
+          <!-- FLOPs对比图 image/03.png -->
+          <img src="image/03.png" alt="FLOPs and Parameter Efficiency" onerror="this.src='https://via.placeholder.com/500x400?text=FLOPs+and+Efficiency'">
+          <div class="caption">
+            Comparison of VRAM utilization and FLOPs. Our Tiny variant operates at just 20.3M parameters and 0.19 GB Memory, highly suitable for edge devices.
+          </div>
         </div>
       </div>
 
       <div class="text-block" style="margin-top: 26px;">
         <p>
-          Evaluated on the demanding DriveLM benchmark, SAGE-VLM demonstrates a profound pattern of parameter efficiency. Our <b>SAGE-VLM-Tiny</b> configuration (capped at 20.3M parameters) achieves a BLEU-4 of 54.11 and CIDEr of 3.38, successfully outperforming standard baseline architectures (like EM-VLM4AD-Base with 235M params) operating with nearly 10x the parameter footprint. 
+          Evaluated on the demanding DriveLM benchmark, SAGE-VLM demonstrates a profound pattern of parameter efficiency. Our <b>SAGE-VLM-Tiny</b> configuration (capped at 20.3M parameters) successfully outperforms standard baseline architectures operating with nearly 10x the parameter footprint. 
         </p>
         <p>
           Crucially for edge deployment, SAGE-VLM consumes only <b>0.19 GB of continuous memory</b> while sustaining 19.90 GFLOPs of processing capability, rendering it exceptionally suitable for real-time local execution in unpredictable urban driving environments.
@@ -405,32 +433,6 @@
   </section>
 
   <section class="section gray">
-    <div class="container">
-      <h2 class="section-title">Qualitative Analysis and Safety Assurance</h2>
-      <div class="section-line"></div>
-      
-      <div class="grid" style="grid-template-columns: 1fr 1fr; align-items: start;">
-        <div class="figure plain">
-          <!-- Replace with Fig 5 (Qualitative validation of SCVR) -->
-          <img src="imgs/fig5_safety.jpg" alt="Qualitative validation of SCVR" onerror="this.src='https://via.placeholder.com/500x350?text=Fig+5:+Safety+Assurance'">
-          <div class="caption">
-            <b>Fig. 5:</b> Traditional methods (left) erroneously eradicate unprompted pedestrians. SAGE-VLM (right) utilizes a fail-safe residual combination rule, preserving non-prompted obstacles.
-          </div>
-        </div>
-
-        <div class="figure plain">
-          <!-- Replace with Fig 6 (Text generation demonstration) -->
-          <img src="imgs/fig6_generation.jpg" alt="Text generation demonstration" onerror="this.src='https://via.placeholder.com/500x350?text=Fig+6:+Generated+Responses'">
-          <div class="caption">
-            <b>Fig. 6:</b> The precise correlation between the enhanced semantic focal regions and correctly generated linguistic output.
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="section">
     <div class="container">
       <h2 class="section-title">Conclusion</h2>
       <div class="section-line"></div>
@@ -446,7 +448,7 @@
     </div>
   </section>
 
-  <section class="section gray">
+  <section class="section">
     <div class="container">
       <h2 class="section-title">Funding & Acknowledgments</h2>
       <div class="section-line"></div>
