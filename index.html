@@ -149,25 +149,27 @@
 
     .section-line { width: 100%; height: 1px; background: var(--line); margin: 0 auto 26px; }
 
-    .abstract-row {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr; 
-      gap: 40px;
-      align-items: center; 
+    .abstract-wrapper {
       max-width: 1120px;
       margin: 0 auto;
     }
-
-    .abstract-row .text-block { max-width: none; margin: 0; font-size: var(--main-text-size); display: block; }
-    .text-block { max-width: 1050px; margin: 0 auto; font-size: var(--main-text-size); text-align: justify; }
-    .text-block p { margin: 0 0 14px; text-indent: 2em; }
-    .text-block p:first-child { margin-top: 0; }
-    .abstract-single { margin: 0; text-indent: 2em; text-align: justify; }
-
-    .motivation-figure { width: 100%; max-width: none; min-width: 0; margin: 0 auto; display: block; }
-    .motivation-img-frame { display: flex; align-items: center; justify-content: center; width: 100%; }
-    .motivation-img-frame img { width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    .motivation-caption {
+    .abstract-wrapper::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .abstract-figure-float {
+      float: right;
+      width: 44%; 
+      margin: 8px 0 20px 36px; 
+    }
+    .abstract-figure-float img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .abstract-caption-float {
       margin-top: 12px;
       font-family: "Times New Roman", Times, serif;
       font-size: 1.05rem;
@@ -175,6 +177,21 @@
       color: var(--muted);
       text-align: justify;
     }
+    .abstract-text-float {
+      font-size: var(--main-text-size);
+      text-align: justify;
+    }
+    .abstract-text-float p {
+      margin: 0 0 14px;
+      text-indent: 2em;
+    }
+    .abstract-text-float p:first-child {
+      margin-top: 0;
+    }
+
+    .text-block { max-width: 1050px; margin: 0 auto; font-size: var(--main-text-size); text-align: justify; }
+    .text-block p { margin: 0 0 14px; text-indent: 2em; }
+    .text-block p:first-child { margin-top: 0; }
 
     .keywords { max-width: 1050px; margin: 25px auto 0; color: var(--muted); font-size: var(--main-text-size); text-align: center; }
 
@@ -223,10 +240,18 @@
 
       .authors { font-size: 1.14rem; }
       .affiliation { font-size: 1.14rem; }
-      .text-block, .abstract-row .text-block, .card p, .keywords, .funding-text { font-size: 1.05rem; }
+      .text-block, .card p, .keywords, .funding-text { font-size: 1.05rem; }
       .title-line1 { font-size: 1.75rem; }
       .title-line2 { font-size: 1.55rem; }
-      .abstract-row, .grid, .performance-figures { grid-template-columns: 1fr; gap: 24px; }
+      
+      .abstract-figure-float {
+        float: none;
+        width: 100%;
+        margin: 0 0 20px 0;
+      }
+      .abstract-text-float { font-size: 1.05rem; }
+
+      .grid, .performance-figures { grid-template-columns: 1fr; gap: 24px; }
       .btn { min-width: 120px; padding: 11px 20px; font-size: 1.04rem; }
     }
   </style>
@@ -277,23 +302,21 @@
       <h2 class="section-title">Abstract</h2>
       <div class="section-line"></div>
 
-      <div class="abstract-row">
-        <div class="text-block">
-          <p class="abstract-single">
-            Recent advancements in vision-language models have shown immense potential for autonomous system perception. However, deploying these frameworks in highly dynamic, complex urban environments (e.g., dense traffic intersections, interactive pedestrian zones) remains severely restricted due to the critical demands for real-time inference on edge devices. To address these limitations, we present a highly efficient framework named <b>SAGE-VLM</b>. Existing architectures often suffer from two critical bottlenecks: they apply standard multi-directional 2D encodings that cause severe coordinate aliasing across concatenated multi-view sequences, and they employ destructive text-conditioned pooling mechanisms that collapse rigid spatial topologies, risking the erasure of unprompted safety-critical obstacles. 
-          </p>
-          <p class="abstract-single">
-            Within the proposed SAGE-VLM, we introduce two core architectural innovations. First, a Multi-View Decoupled 2D Rotary Positional Encoding <b>(MVD-RoPE)</b> mechanism explicitly injects fine-grained spatial inductive biases natively into attention layers by decoupling continuous view boundaries, eliminating multi-camera spatial confusion. Second, a Semantic-Conditioned Visual Residual <b>(SCVR)</b> module distills an adaptive pure text query to act as a non-destructive semantic gate. Rather than destructively pooling features, this module dynamically filters background noise while using a residual pathway to preserve underlying spatial topology. Remarkably, despite utilizing a highly condensed backbone (20.3M parameters), SAGE-VLM delivers superior cross-modal reasoning and generation accuracy compared to existing baselines in larger parameter regimes.
-          </p>
-        </div>
-
-        <div class="figure plain motivation-figure">
-          <div class="motivation-img-frame">
-            <img src="image/4.png" alt="Abstract Representation of SAGE-VLM" onerror="this.src='https://via.placeholder.com/600x450?text=Image+4'">
-          </div>
-          <div class="motivation-caption">
+      <div class="abstract-wrapper">
+        <div class="abstract-figure-float">
+          <img src="image/4.png" alt="Abstract Representation of SAGE-VLM" onerror="this.src='https://via.placeholder.com/600x450?text=Image+4'">
+          <div class="abstract-caption-float">
             Conceptual overview. SAGE-VLM ensures real-time multimodal perception while natively safeguarding geometric and semantic structures against dilution.
           </div>
+        </div>
+
+        <div class="abstract-text-float">
+          <p>
+            Recent advancements in vision-language models have shown immense potential for autonomous system perception. However, deploying these frameworks in highly dynamic, complex urban environments (e.g., dense traffic intersections, interactive pedestrian zones) remains severely restricted due to the critical demands for real-time inference on edge devices. To address these limitations, we present a highly efficient framework named <b>SAGE-VLM</b>. Existing architectures often suffer from two critical bottlenecks: they apply standard multi-directional 2D encodings that cause severe coordinate aliasing across concatenated multi-view sequences, and they employ destructive text-conditioned pooling mechanisms that collapse rigid spatial topologies, risking the erasure of unprompted safety-critical obstacles. 
+          </p>
+          <p>
+            Within the proposed SAGE-VLM, we introduce two core architectural innovations. First, a Multi-View Decoupled 2D Rotary Positional Encoding <b>(MVD-RoPE)</b> mechanism explicitly injects fine-grained spatial inductive biases natively into attention layers by decoupling continuous view boundaries, eliminating multi-camera spatial confusion. Second, a Semantic-Conditioned Visual Residual <b>(SCVR)</b> module distills an adaptive pure text query to act as a non-destructive semantic gate. Rather than destructively pooling features, this module dynamically filters background noise while using a residual pathway to preserve underlying spatial topology. Remarkably, despite utilizing a highly condensed backbone (20.3M parameters), SAGE-VLM delivers superior cross-modal reasoning and generation accuracy compared to existing baselines in larger parameter regimes.
+          </p>
         </div>
       </div>
 
@@ -346,7 +369,6 @@
       <div class="section-line"></div>
 
       <div class="figure">
-        <!-- 整体架构图 image/1.png -->
         <img src="image/1.png" alt="Overall architecture of SAGE-VLM" onerror="this.src='https://via.placeholder.com/1000x500?text=Overall+Architecture'">
         <div class="caption">
           Comprehensive pipeline overview. SAGE-VLM processes continuous frame sequences through a lightweight backbone, preserves spatial relations via MVD-RoPE, and purifies cross-modal feature flows using the SCVR non-destructive gate before optimal transport aggregation.
@@ -371,7 +393,6 @@
 
       <div class="grid">
         <div class="figure plain">
-          <!-- 2D RoPE 模块示意图 image/2d.png -->
           <img src="image/2d.png" alt="Structure of MVD-RoPE" onerror="this.src='https://via.placeholder.com/500x350?text=MVD-RoPE+Module'">
           <div class="caption">
             <b>MVD-RoPE:</b> Decouples continuous view boundaries to eliminate cross-view aliasing while explicitly injecting exact 2D topological inductive biases.
@@ -379,7 +400,6 @@
         </div>
 
         <div class="figure plain">
-          <!-- 文本图形先验融合模块 image/ronghe.png -->
           <img src="image/ronghe.png" alt="Structure of SCVR" onerror="this.src='https://via.placeholder.com/500x350?text=SCVR+Module'">
           <div class="caption">
             <b>Semantic-Conditioned Fusion:</b> Distills an adaptive pure text query to drive a non-destructive residual gate, preserving baseline spatial topologies via an identity bypass (+).
@@ -405,7 +425,6 @@
 
       <div class="performance-figures">
         <div class="figure plain">
-          <!-- 评估结果图 image/02.png -->
           <img src="image/02.png" alt="Performance Evaluation" onerror="this.src='https://via.placeholder.com/500x400?text=Performance+Evaluation'">
           <div class="caption">
             Comparison of model performance on benchmark. Our model surpasses baseline architectures in reasoning capabilities.
@@ -413,7 +432,6 @@
         </div>
 
         <div class="figure plain">
-          <!-- FLOPs对比图 image/03.png -->
           <img src="image/03.png" alt="FLOPs and Parameter Efficiency" onerror="this.src='https://via.placeholder.com/500x400?text=FLOPs+and+Efficiency'">
           <div class="caption">
             Comparison of VRAM utilization and FLOPs. Our Tiny variant operates at just 20.3M parameters and 0.19 GB Memory, highly suitable for edge devices.
